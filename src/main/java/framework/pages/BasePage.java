@@ -2,6 +2,7 @@ package framework.pages;
 
 import framework.managers.DriverManager;
 import framework.managers.PageManager;
+import io.qameta.allure.Step;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;

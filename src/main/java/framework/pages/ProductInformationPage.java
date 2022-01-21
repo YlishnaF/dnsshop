@@ -1,6 +1,7 @@
 package framework.pages;
 
 import framework.data.Product;
+import io.qameta.allure.Step;
 import org.junit.jupiter.api.Assertions;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
@@ -33,35 +34,44 @@ public class ProductInformationPage extends BasePage {
     @FindBy(xpath = "//h1[contains(text(), \"Найдено\")]")
     private WebElement amountOfFinedProducts;
 
-
-    public void checkThePriceChangedWithGuarantee() throws InterruptedException {
-        Thread.sleep(2000);
-        price = getPrice(productPrice);
-        System.out.println(price);
+    public ProductInformationPage addGuarantee(){
         scrollToElement(productCard);
-        waitElementToBeClicable(guaranteeТxt);
-        guaranteeТxt.click();
-        waitElementToBeClicable(chooseGuaranteeBnt);
-        chooseGuaranteeBnt.click();
-        Assertions.assertEquals(isPriceChanged.getText(), "цена изменена");
-        scrollToElement(fullCard);
-        priceWithGuarantee = getPrice(productCard);
-        System.out.println(priceWithGuarantee);
+        if(guaranteeТxt.isDisplayed()){
+            waitElementToBeClicable(guaranteeТxt);
+            guaranteeТxt.click();
+            waitElementToBeClicable(chooseGuaranteeBnt);
+            chooseGuaranteeBnt.click();
+            Assertions.assertEquals(isPriceChanged.getText(), "цена изменена");
+        }
+        return pageManager.getProductInformationPage();
     }
 
-    public void buyProduct() throws InterruptedException {
+    public ProductInformationPage checkThePriceChangedWithGuarantee() throws InterruptedException {
+        Thread.sleep(2000);
+        price = getPrice(productPrice);
+        scrollToElement(productCard);
+        addGuarantee();
+        priceWithGuarantee = getPrice(productCard);
+        scrollToElement(fullCard);
+        Assertions.assertNotEquals(price,priceWithGuarantee);
+        return pageManager.getProductInformationPage();
+    }
+
+    public ProductInformationPage buyProduct() {
         waitElementToBeClicable(buyBtn);
         buyBtn.click();
         Product product = new Product(productName.getText(), price, (priceWithGuarantee - price), priceWithGuarantee != 0);
         addToShoppingCart(product);
         wait.until(ExpectedConditions.textToBePresentInElement(amountProductsInCart, String.valueOf(getShoppingCart().size())));
+        return pageManager.getProductInformationPage();
     }
 
-    public void newSearch(String name) {
+    public VariantsOfProductsPage newSearch(String name) {
         waitElementToBeClicable(searchLine);
         searchLine.click();
         searchLine.sendKeys(name);
         searchLine.submit();
         wait.until(ExpectedConditions.visibilityOf(amountOfFinedProducts));
+        return pageManager.getVariantsOfProductsPage();
     }
 }

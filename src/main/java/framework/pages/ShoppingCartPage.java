@@ -1,5 +1,6 @@
 package framework.pages;
 
+import io.qameta.allure.Step;
 import org.junit.jupiter.api.Assertions;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
@@ -33,51 +34,47 @@ public class ShoppingCartPage extends BasePage{
     @FindBy(xpath = "//div[@class=\"header-menu-wrapper\"]//span[@class=\"cart-link__badge\"]")
     private WebElement amountProductsInCart;
 
-    public void checkGuarantee(String s){
+    public ShoppingCartPage checkGuarantee(String s){
         System.out.println(guarantee.getText());
         Assertions.assertTrue(guarantee.getText().contains(s));
+        return pageManager.getShoppingCartPage();
     }
 
-    public void checkTotalCartPrice(){
+    public ShoppingCartPage checkTotalCartPrice(){
         int totalPrice=0;
-        for (WebElement item:items) {
-   //         String xpath = "//a[@class=\"cart-items__product-name-link\" and contains(text(), \""+name+ "\")]/../../../../..//i[@class=\"count-buttons__icon count-buttons__icon-plus\"]";
 
-
-        }
         for (WebElement item: currentPrices) {
             totalPrice+=getPrice(item);
 
         }
-        System.out.println(totalPrice);
+
         for (WebElement gar: guaranteePrices) {
             WebElement webElement = driverManager.getDriver().findElement(By.xpath("//div[@class=\"cart-items__product\"]//div[contains(text(), \"Доп. гарантия\")]/../..//span[@class=\"base-ui-radio-button__icon base-ui-radio-button__icon_checked\"]/../../span/../../../../../../..//input"));
-            System.out.println("input " + webElement.getAttribute("value"));
             int count=Integer.parseInt(webElement.getAttribute("value"));
             totalPrice+=getPrice(gar)*count;
         }
-        System.out.println(totalPrice);
+
         Assertions.assertEquals(totalPrice, getPrice(totalPriceOnPage));
+        return pageManager.getShoppingCartPage();
     }
 
-    public void deleteItemFromCart(String name) throws InterruptedException {
+    public ShoppingCartPage deleteItemFromCart(String name) throws InterruptedException {
         for (WebElement item: items) {
             if(item.getText().contains(name)){
-                String xpath = "//a[@class=\"cart-items__product-name-link\" and contains(text(), \""+name+ "\")]/../../../../..//i[@class=\"count-buttons__icon count-buttons__icon-minus\"]";
-                WebElement delete = driverManager.getDriver().findElement(By.xpath(xpath));
+                String elementForDeleteXpath = "//a[@class=\"cart-items__product-name-link\" and contains(text(), \""+name+ "\")]/../../../../..//i[@class=\"count-buttons__icon count-buttons__icon-minus\"]";
+                WebElement delete = driverManager.getDriver().findElement(By.xpath(elementForDeleteXpath));
                 delete.click();
                 Thread.sleep(2000);
                 removeProductFromCart(name);
-                System.out.println(getShoppingCart().size());
                 wait.until(ExpectedConditions.textToBePresentInElement(amountProductsInCart,String.valueOf(getShoppingCart().size())));
-
                 Thread.sleep(2000);
-                return;
+                return pageManager.getShoppingCartPage();
             }
         }
+        return pageManager.getShoppingCartPage();
     }
 
-    public void addAdditionalItemToCart(String name) throws InterruptedException {
+    public ShoppingCartPage addAdditionalItemToCart(String name) throws InterruptedException {
         for (WebElement item: items) {
             if(item.getText().contains(name)){
                 String xpath = "//a[@class=\"cart-items__product-name-link\" and contains(text(), \""+name+ "\")]/../../../../..//i[@class=\"count-buttons__icon count-buttons__icon-plus\"]";
@@ -89,9 +86,9 @@ public class ShoppingCartPage extends BasePage{
                 System.out.println(getShoppingCart().size());
                 wait.until(ExpectedConditions.textToBePresentInElement(amountProductsInCart,String.valueOf(getShoppingCart().size())));
                 Thread.sleep(2000);
-                return;
+                return pageManager.getShoppingCartPage();
             }
         }
-
+        return pageManager.getShoppingCartPage();
     }
 }

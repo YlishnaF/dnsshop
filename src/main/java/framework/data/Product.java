@@ -4,12 +4,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Product {
-    String name;
-    int price;
-    String guarantyDuration;
-    int priceOfGuaranty;
-    boolean guaranteeChoose;
-    static List<Product> shoppingCart= new ArrayList<>();
+    private String name;
+    private int price;
+    private String guarantyDuration;
+    private int priceOfGuaranty;
+    private boolean guaranteeChoose;
+    private static List<Product> shoppingCart= new ArrayList<>();
 
     public Product(String name, int price) {
         this.name = name;
@@ -17,7 +17,6 @@ public class Product {
     }
 
     public Product(String name, int price, int priceOfGuaranty, boolean guaranteeChoose) {
-
         this.name = name;
         this.price = price;
         this.priceOfGuaranty = priceOfGuaranty;
@@ -69,8 +68,6 @@ public class Product {
             }
         }
         getShoppingCart().add(item);
-        System.out.println("item " + item.getPriceOfGuaranty());
-
     }
 }
 
