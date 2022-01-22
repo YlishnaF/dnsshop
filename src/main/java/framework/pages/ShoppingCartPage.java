@@ -39,7 +39,7 @@ public class ShoppingCartPage extends BasePage{
         Assertions.assertTrue(guarantee.getText().contains(s));
         return pageManager.getShoppingCartPage();
     }
-
+    @Step
     public ShoppingCartPage checkTotalCartPrice(){
         int totalPrice=0;
 
@@ -57,7 +57,7 @@ public class ShoppingCartPage extends BasePage{
         Assertions.assertEquals(totalPrice, getPrice(totalPriceOnPage));
         return pageManager.getShoppingCartPage();
     }
-
+    @Step
     public ShoppingCartPage deleteItemFromCart(String name) throws InterruptedException {
         for (WebElement item: items) {
             if(item.getText().contains(name)){
@@ -73,13 +73,13 @@ public class ShoppingCartPage extends BasePage{
         }
         return pageManager.getShoppingCartPage();
     }
-
+    @Step
     public ShoppingCartPage addAdditionalItemToCart(String name) throws InterruptedException {
         for (WebElement item: items) {
             if(item.getText().contains(name)){
                 String xpath = "//a[@class=\"cart-items__product-name-link\" and contains(text(), \""+name+ "\")]/../../../../..//i[@class=\"count-buttons__icon count-buttons__icon-plus\"]";
                 WebElement added = driverManager.getDriver().findElement(By.xpath(xpath));
-                scrollWithOffset(item,0,-100);
+                // scrollWithOffset(item,0,-100);
                 waitElementToBeClicable(added);;
                 added.click();
                 addToCartByName(name);

@@ -34,6 +34,7 @@ public class ProductInformationPage extends BasePage {
     @FindBy(xpath = "//h1[contains(text(), \"Найдено\")]")
     private WebElement amountOfFinedProducts;
 
+    @Step
     public ProductInformationPage addGuarantee(){
         scrollToElement(productCard);
         if(guaranteeТxt.isDisplayed()){
@@ -45,7 +46,7 @@ public class ProductInformationPage extends BasePage {
         }
         return pageManager.getProductInformationPage();
     }
-
+    @Step
     public ProductInformationPage checkThePriceChangedWithGuarantee() throws InterruptedException {
         Thread.sleep(2000);
         price = getPrice(productPrice);
@@ -56,7 +57,7 @@ public class ProductInformationPage extends BasePage {
         Assertions.assertNotEquals(price,priceWithGuarantee);
         return pageManager.getProductInformationPage();
     }
-
+    @Step
     public ProductInformationPage buyProduct() {
         waitElementToBeClicable(buyBtn);
         buyBtn.click();
@@ -65,7 +66,7 @@ public class ProductInformationPage extends BasePage {
         wait.until(ExpectedConditions.textToBePresentInElement(amountProductsInCart, String.valueOf(getShoppingCart().size())));
         return pageManager.getProductInformationPage();
     }
-
+    @Step
     public VariantsOfProductsPage newSearch(String name) {
         waitElementToBeClicable(searchLine);
         searchLine.click();

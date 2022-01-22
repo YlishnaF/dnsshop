@@ -19,6 +19,8 @@
         <surefire.version>3.0.0-M5</surefire.version>
         <compiler.version>3.9.0</compiler.version>
         <aspectj.version>1.9.7</aspectj.version>
+        <allure-junit5.version>2.13.6</allure-junit5.version>
+        <allure-maven.version>2.10.0</allure-maven.version>
     </properties>
 
     <dependencies>
@@ -44,6 +46,16 @@
             <version>${junit-platform-launcher.version}</version>
             <scope>test</scope>
         </dependency>
+
+
+        <!-- https://mvnrepository.com/artifact/org.junit.platform/junit-platform-runner -->
+        <!--        <dependency>-->
+        <!--            <groupId>org.junit.platform</groupId>-->
+        <!--            <artifactId>junit-platform-runner</artifactId>-->
+        <!--            <version>1.8.2</version>-->
+        <!--            <scope>test</scope>-->
+        <!--        </dependency>-->
+
         <!--        <dependency>-->
         <!--            <groupId>org.testng</groupId>-->
         <!--            <artifactId>testng</artifactId>-->
@@ -55,7 +67,13 @@
         <dependency>
             <groupId>io.qameta.allure</groupId>
             <artifactId>allure-junit5</artifactId>
-            <version>2.13.6</version>
+            <version>${allure-junit5.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter-engine</artifactId>
+            <version>5.8.2</version>
+            <scope>compile</scope>
         </dependency>
     </dependencies>
 
@@ -75,12 +93,12 @@
                     <properties>
                         <property>
                             <name>listener</name>
-                            <value>io.qameta.allure.junit5.AllureJunit5</value>
+                            <value>framework.utils.MyAllureListener</value>
+<!--                            <value>io.qameta.allure.junit5.AllureJunit5</value>-->
                         </property>
                     </properties>
                     <systemPropertyVariables>
-                        <allure.results.directory>${project.build.directory}/report/allure-results
-                        </allure.results.directory>
+                        <allure.results.directory>${project.build.directory}/report/allure-results</allure.results.directory>
                     </systemPropertyVariables>
                 </configuration>
                 <dependencies>
@@ -96,6 +114,7 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
+                <version>3.8.1</version>
                 <configuration>
                     <source>${maven.compiler.source}</source>
                     <target>${maven.compiler.target}</target>
@@ -105,23 +124,22 @@
             <plugin>
                 <groupId>io.qameta.allure</groupId>
                 <artifactId>allure-maven</artifactId>
-                <version>2.10.0</version>
+                <version>${allure-maven.version}</version>
 
                 <configuration>
                     <reportVersion>2.10.0</reportVersion>
                     <resultsDirectory>${project.build.directory}/report/allure-results</resultsDirectory>
-                    <reportDirectory>${project.build.directory}/report/allure-results</reportDirectory>
+                    <reportDirectory>${project.build.directory}/report/allure-reports</reportDirectory>
                 </configuration>
                 <executions>
                     <execution>
                         <id>allure-plugin</id>
                         <phase>install</phase>
                         <goals>
-                            <goal>report</goal>
+                            <goal>serve</goal>
                         </goals>
                     </execution>
                 </executions>
-
             </plugin>
         </plugins>
     </build>
