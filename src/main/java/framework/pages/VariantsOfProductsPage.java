@@ -15,17 +15,17 @@ import static framework.data.Product.getShoppingCart;
 
 public class VariantsOfProductsPage extends BasePage {
 
-    @FindBy(xpath = "//div[@data-id=\"product\"]//a[contains(@class, 'catalog-product__name')]/span")
-    List<WebElement> product;
+    @FindBy(xpath = "//div[@data-id=\"product\"]")
+    List<WebElement> products;
 
     @FindBy(xpath = "//button[@class=\"button-ui buy-btn button-ui_brand button-ui_passive\"]")
     private List<WebElement> buyProduct;
 
+    @Step(value = "Выбрать продукт {name} по текстовой ссылке")
     public ProductInformationPage clickOnProduct(String name) {
-        for (WebElement itemMenu : product) {
+        for (WebElement itemMenu : products) {
             if (itemMenu.getText().contains(name)) {
-                String xpath = "//div[@data-id=\"product\"]//a[contains(@class, 'catalog-product__name')]/span[contains(text(), \"" + name + "\")]/..";
-                WebElement item = driverManager.getDriver().findElement(By.xpath(xpath));
+                WebElement item=itemMenu.findElement(By.xpath(".//a[contains(@class, 'catalog-product__name')]"));
                 waitElementToBeClicable(item);
                 item.click();
                 return pageManager.getProductInformationPage();
@@ -34,17 +34,15 @@ public class VariantsOfProductsPage extends BasePage {
         return pageManager.getProductInformationPage();
     }
 
-    @Step
+    @Step (value = "Добавть {name} в корзину")
     public VariantsOfProductsPage buyProduct(String name) {
-        for (WebElement itemMenu : product) {
+        for (WebElement itemMenu : products) {
             if (itemMenu.getText().contains(name)) {
-                String buyBtnXpath = "//div[@data-id=\"product\"]//a[contains(@class, 'catalog-product__name')]/span[contains(text(), \"" + name + "\")]/../..//button[contains(@class, \"button-ui buy-btn\")]";
-                WebElement buyBtn = driverManager.getDriver().findElement(By.xpath(buyBtnXpath));
+                WebElement buyBtn=itemMenu.findElement(By.xpath(".//button[contains(@class, \"button-ui buy-btn\")]"));
                 waitElementToBeClicable(buyBtn);
                 buyBtn.click();
                 createNewProduct(name);
                 wait.until(ExpectedConditions.textToBePresentInElement(amountProductsInCart, String.valueOf(getShoppingCart().size())));
-                Assertions.assertTrue(false);
                 Assertions.assertEquals(Integer.parseInt(String.valueOf(totalPriceShouldBe())), getPrice(totalPriceCart));
                 return pageManager.getVariantsOfProductsPage();
             }
@@ -52,6 +50,7 @@ public class VariantsOfProductsPage extends BasePage {
         return pageManager.getVariantsOfProductsPage();
     }
 
+    @Step(value = "Перейти в корзину")
     public ShoppingCartPage goIntoCart() {
         waitElementToBeClicable(cartBnt);
         cartBnt.click();
@@ -68,8 +67,11 @@ public class VariantsOfProductsPage extends BasePage {
     }
 
     public void createNewProduct(String name){
-        String productPriceXpath = "//div[@data-id=\"product\"]//a[contains(@class, 'catalog-product__name')]/span[contains(text(), \"" + name + "\")]/../..//div[@class=\"product-buy__price\"]";
-        WebElement price = driverManager.getDriver().findElement(By.xpath(productPriceXpath));
-        addToShoppingCart(new Product(name, getPrice(price)));
+        for (WebElement product : products) {
+            if (product.getText().contains(name)) {
+                WebElement price= product.findElement(By.xpath(".//div[@class=\"product-buy__price\"]"));
+                addToShoppingCart(new Product(name, getPrice(price)));
+            }
+        }
     }
 }

@@ -12,7 +12,7 @@ public class StartPage extends BasePage{
     @FindBy(xpath = "//h1[contains(text(), \"Найдено\")]")
     private WebElement listOfFinedProducts;
 
-@Step
+@Step (value = "Поиск продукта {s}")
     public VariantsOfProductsPage startSearchProduct(String s)  {
         waitElementToBeClicable(searchLine);
         searchLine.click();
