@@ -13,15 +13,15 @@ public class DnsTest extends BaseClass {
                 .checkThePriceChangedWithGuarantee()
                 .buyProduct()
                 .newSearch(VariablesForSearch.COMMON_GAME_NAME)
-                .buyProduct(VariablesForSearch.SPECIFIC_GAME_NAME)
-                .goIntoCart()
-                .checkGuarantee(VariablesForSearch.GUARANTEE_DURATION)
-                .checkTotalCartPrice()
-                .deleteItemFromCart(VariablesForSearch.SPECIFIC_GAME_NAME)
-                .checkTotalCartPrice()
-                .addAdditionalItemToCart(VariablesForSearch.SPECIFIC_PHONE_NAME)
-                .addAdditionalItemToCart(VariablesForSearch.SPECIFIC_PHONE_NAME)
-                .checkTotalCartPrice();
+                .buyProduct(VariablesForSearch.SPECIFIC_GAME_NAME);
+//                .goIntoCart()
+//                .checkGuarantee(VariablesForSearch.GUARANTEE_DURATION)
+//                .checkTotalCartPrice()
+//                .deleteItemFromCart(VariablesForSearch.SPECIFIC_GAME_NAME)
+//                .checkTotalCartPrice()
+//                .addAdditionalItemToCart(VariablesForSearch.SPECIFIC_PHONE_NAME)
+//                .addAdditionalItemToCart(VariablesForSearch.SPECIFIC_PHONE_NAME)
+//                .checkTotalCartPrice();
 
     }
 }

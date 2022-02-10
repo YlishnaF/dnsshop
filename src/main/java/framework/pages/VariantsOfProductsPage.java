@@ -44,7 +44,6 @@ public class VariantsOfProductsPage extends BasePage {
                 buyBtn.click();
                 createNewProduct(name);
                 wait.until(ExpectedConditions.textToBePresentInElement(amountProductsInCart, String.valueOf(getShoppingCart().size())));
-                Assertions.assertTrue(false);
                 Assertions.assertEquals(Integer.parseInt(String.valueOf(totalPriceShouldBe())), getPrice(totalPriceCart));
                 return pageManager.getVariantsOfProductsPage();
             }
