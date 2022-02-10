@@ -35,13 +35,13 @@ public class DriverManager {
     public void initDriver(){
         DesiredCapabilities capabilities = new DesiredCapabilities();
         capabilities.setBrowserName("chrome");
-        capabilities.setVersion("73.0");
+        capabilities.setVersion("81.0");
         capabilities.setCapability("enableVNC", true);
         capabilities.setCapability("enableVideo", false);
 
         try {
             RemoteWebDriver driver = new RemoteWebDriver(
-                    URI.create("http://selenoid.appline.ru:4445/wd/hub").toURL(),
+                    URI.create("http://164.92.227.174:4444/wd/hub").toURL(),
                     capabilities
             );
         } catch (MalformedURLException e) {
