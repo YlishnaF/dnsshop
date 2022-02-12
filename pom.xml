@@ -21,6 +21,7 @@
         <aspectj.version>1.9.7</aspectj.version>
         <allure-junit5.version>2.13.6</allure-junit5.version>
         <allure-maven.version>2.10.0</allure-maven.version>
+        <tests>mytest</tests>
     </properties>
 
     <dependencies>
@@ -96,10 +97,12 @@
                             <value>framework.utils.MyAllureListener</value>
 <!--                            <value>io.qameta.allure.junit5.AllureJunit5</value>-->
                         </property>
+
                     </properties>
                     <systemPropertyVariables>
                         <allure.results.directory>${project.build.directory}/report/allure-results</allure.results.directory>
                     </systemPropertyVariables>
+                    <groups>${tests}</groups>
                 </configuration>
                 <dependencies>
                     <!-- https://mvnrepository.com/artifact/org.aspectj/aspectjweaver -->

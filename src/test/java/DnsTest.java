@@ -1,11 +1,14 @@
 import base.BaseClass;
 import com.google.errorprone.annotations.Var;
 import framework.data.VariablesForSearch;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 
 public class DnsTest extends BaseClass {
 
     @Test
+    @Tag("mytest")
     public void test() throws InterruptedException {
         pageManager.getStartPage()
                 .startSearchProduct(VariablesForSearch.COMMON_PHONE_NAME)
