@@ -134,7 +134,7 @@
                 <executions>
                     <execution>
                         <id>allure-plugin</id>
-                        <phase>install</phase>
+                        <phase>test</phase>
                         <goals>
                             <goal>serve</goal>
                         </goals>
